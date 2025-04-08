@@ -3,6 +3,476 @@ import numpy as np
 import matplotlib.pyplot as plt
 import folium
 from streamlit_folium import st_folium
+season_data = {
+    "2000": {
+        "total_storms": 15,
+        "hurricanes": 8,
+        "major_hurricanes": 3,
+        "notable_storms": [
+            {
+                "name": "Hurricane Keith",
+                "category": 4,
+                "summary": "Caused significant damage in Belize and Mexico."
+            },
+            {
+                "name": "Hurricane Gordon",
+                "category": 1,
+                "summary": "Brought heavy rainfall and flooding to Florida."
+            }
+        ]
+    },
+    "2001": {
+        "total_storms": 15,
+        "hurricanes": 9,
+        "major_hurricanes": 4,
+        "notable_storms": [
+            {
+                "name": "Tropical Storm Allison",
+                "category": "Tropical Storm",
+                "summary": "Caused severe flooding in Texas; one of the costliest tropical storms."
+            },
+            {
+                "name": "Hurricane Iris",
+                "category": 4,
+                "summary": "Struck Belize causing severe destruction."
+            }
+        ]
+    },
+    "2002": {
+        "total_storms": 12,
+        "hurricanes": 4,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Lili",
+                "category": 4,
+                "summary": "Made landfall in Louisiana causing significant damage."
+            },
+            {
+                "name": "Tropical Storm Fay",
+                "category": "Tropical Storm",
+                "summary": "Brought heavy rains to Texas."
+            }
+        ]
+    },
+    "2003": {
+        "total_storms": 16,
+        "hurricanes": 7,
+        "major_hurricanes": 3,
+        "notable_storms": [
+            {
+                "name": "Hurricane Isabel",
+                "category": 5,
+                "summary": "Caused extensive damage in the Mid-Atlantic U.S."
+            },
+            {
+                "name": "Hurricane Fabian",
+                "category": 4,
+                "summary": "Struck Bermuda causing significant damage."
+            }
+        ]
+    },
+    "2004": {
+        "total_storms": 15,
+        "hurricanes": 9,
+        "major_hurricanes": 6,
+        "notable_storms": [
+            {
+                "name": "Hurricane Charley",
+                "category": 4,
+                "summary": "Severely impacted Florida's Gulf Coast."
+            },
+            {
+                "name": "Hurricane Ivan",
+                "category": 5,
+                "summary": "Caused widespread damage from the Caribbean to the U.S."
+            },
+            {
+                "name": "Hurricane Jeanne",
+                "category": 3,
+                "summary": "Looped over the Atlantic before striking Florida."
+            }
+        ]
+    },
+    "2005": {
+        "total_storms": 28,
+        "hurricanes": 15,
+        "major_hurricanes": 7,
+        "notable_storms": [
+            {
+                "name": "Hurricane Katrina",
+                "category": 5,
+                "summary": "Devastated New Orleans and surrounding areas."
+            },
+            {
+                "name": "Hurricane Rita",
+                "category": 5,
+                "summary": "Struck Texas-Louisiana border causing severe damage."
+            },
+            {
+                "name": "Hurricane Wilma",
+                "category": 5,
+                "summary": "Strongest Atlantic hurricane by pressure; impacted Yucatán and Florida."
+            }
+        ]
+    },
+    "2006": {
+        "total_storms": 10,
+        "hurricanes": 5,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Ernesto",
+                "category": 1,
+                "summary": "Affected Haiti, Cuba, and the U.S. East Coast."
+            },
+            {
+                "name": "Hurricane Gordon",
+                "category": 3,
+                "summary": "Remained mostly over open water; minimal land impact."
+            }
+        ]
+    },
+    "2007": {
+        "total_storms": 15,
+        "hurricanes": 6,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Dean",
+                "category": 5,
+                "summary": "Made landfall in Mexico; one of the strongest hurricanes to do so."
+            },
+            {
+                "name": "Hurricane Felix",
+                "category": 5,
+                "summary": "Struck Nicaragua; rapid intensification noted."
+            }
+        ]
+    },
+    "2008": {
+        "total_storms": 16,
+        "hurricanes": 8,
+        "major_hurricanes": 5,
+        "notable_storms": [
+            {
+                "name": "Hurricane Gustav",
+                "category": 4,
+                "summary": "Caused significant damage in the Caribbean and U.S. Gulf Coast."
+            },
+            {
+                "name": "Hurricane Ike",
+                "category": 4,
+                "summary": "Extensive damage in Texas and parts of the Caribbean."
+            }
+        ]
+    },
+    "2009": {
+        "total_storms": 9,
+        "hurricanes": 3,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Bill",
+                "category": 4,
+                "summary": "Large storm that remained mostly over open water."
+            },
+            {
+                "name": "Tropical Storm Claudette",
+                "category": "Tropical Storm",
+                "summary": "Made landfall in the Florida Panhandle."
+            }
+        ]
+    },
+    "2010": {
+        "total_storms": 19,
+        "hurricanes": 12,
+        "major_hurricanes": 5,
+        "notable_storms": [
+            {
+                "name": "Hurricane Igor",
+                "category": 4,
+                "summary": "Affected Newfoundland and Bermuda."
+            },
+            {
+                "name": "Hurricane Tomas",
+                "category": 2,
+                "summary": "Caused flooding and damage in the Caribbean."
+            }
+        ]
+    },
+    "2011": {
+        "total_storms": 19,
+        "hurricanes": 7,
+        "major_hurricanes": 4,
+        "notable_storms": [
+            {
+                "name": "Hurricane Irene",
+                "category": 3,
+                "summary": "Caused severe flooding and power outages from North Carolina to the northeastern U.S."
+            },
+            {
+                "name": "Hurricane Katia",
+                "category": 4,
+                "summary": "A powerful Cape Verde hurricane that stayed mostly over open ocean."
+            },
+            {
+                "name": "Hurricane Rina",
+                "category": 3,
+                "summary": "Briefly became a major hurricane near the Yucatán Peninsula."
+            },
+            {
+                "name": "Tropical Storm Lee",
+                "category": "Tropical Storm",
+                "summary": "Caused extensive flooding in the Gulf Coast and the northeastern U.S."
+            }
+        ]
+    },
+    "2012": {
+        "total_storms": 19,
+        "hurricanes": 10,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Sandy",
+                "category": 3,
+                "summary": "Caused extensive damage across the Caribbean and the U.S. East Coast, particularly in New Jersey and New York."
+            },
+            {
+                "name": "Hurricane Isaac",
+                "category": 1,
+                "summary": "Made landfall in Louisiana, causing significant flooding and power outages."
+            }
+        ]
+    },
+    "2013": {
+        "total_storms": 14,
+        "hurricanes": 2,
+        "major_hurricanes": 0,
+        "notable_storms": [
+            {
+                "name": "Tropical Storm Andrea",
+                "category": "Tropical Storm",
+                "summary": "Brought heavy rain and tornadoes to Florida and the Southeastern U.S."
+            },
+            {
+                "name": "Hurricane Humberto",
+                "category": 1,
+                "summary": "Briefly reached hurricane strength; remained over the eastern Atlantic with minimal impact."
+            }
+        ]
+    },
+    "2014": {
+        "total_storms": 8,
+        "hurricanes": 6,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Arthur",
+                "category": 2,
+                "summary": "Made landfall in North Carolina, causing power outages and flooding during the Fourth of July holiday."
+            },
+            {
+                "name": "Hurricane Gonzalo",
+                "category": 4,
+                "summary": "Struck Bermuda, causing widespread damage and power outages."
+            }
+        ]
+    },
+    "2015": {
+        "total_storms": 11,
+        "hurricanes": 4,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Joaquin",
+                "category": 4,
+                "summary": "Caused significant damage in the Bahamas and was associated with the sinking of the cargo ship El Faro."
+            },
+            {
+                "name": "Tropical Storm Erika",
+                "category": "Tropical Storm",
+                "summary": "Caused deadly flooding and landslides in Dominica."
+            }
+        ]
+    },
+    "2016": {
+        "total_storms": 15,
+        "hurricanes": 7,
+        "major_hurricanes": 4,
+        "notable_storms": [
+            {
+                "name": "Hurricane Matthew",
+                "category": 5,
+                "summary": "Caused widespread destruction in Haiti, eastern Cuba, and the southeastern United States."
+            },
+            {
+                "name": "Hurricane Hermine",
+                "category": 1,
+                "summary": "Made landfall in Florida, ending an 11-year hurricane landfall drought for the state."
+            }
+        ]
+    },
+    "2017": {
+        "total_storms": 17,
+        "hurricanes": 10,
+        "major_hurricanes": 6,
+        "notable_storms": [
+            {
+                "name": "Hurricane Harvey",
+                "category": 4,
+                "summary": "Brought catastrophic flooding to Texas, particularly the Houston area."
+            },
+            {
+                "name": "Hurricane Irma",
+                "category": 5,
+                "summary": "Caused extensive damage across the Caribbean and Florida."
+            },
+            {
+                "name": "Hurricane Maria",
+                "category": 5,
+                "summary": "Devastated Puerto Rico, causing a humanitarian crisis."
+            }
+        ]
+    },
+    "2018": {
+        "total_storms": 15,
+        "hurricanes": 8,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Florence",
+                "category": 4,
+                "summary": "Brought record-breaking rainfall and flooding to the Carolinas."
+            },
+            {
+                "name": "Hurricane Michael",
+                "category": 5,
+                "summary": "Made landfall in the Florida Panhandle with catastrophic winds and storm surge."
+            }
+        ]
+    },
+    "2019": {
+        "total_storms": 18,
+        "hurricanes": 6,
+        "major_hurricanes": 3,
+        "notable_storms": [
+            {
+                "name": "Hurricane Dorian",
+                "category": 5,
+                "summary": "Devastated the Bahamas with record-breaking winds and storm surge."
+            },
+            {
+                "name": "Tropical Storm Imelda",
+                "category": "Tropical Storm",
+                "summary": "Caused significant flooding in southeastern Texas."
+            }
+        ]
+    },
+    "2020": {
+        "total_storms": 30,
+        "hurricanes": 13,
+        "major_hurricanes": 6,
+        "notable_storms": [
+            {
+                "name": "Hurricane Laura",
+                "category": 4,
+                "summary": "Struck Louisiana with extreme winds and storm surge."
+            },
+            {
+                "name": "Hurricane Eta",
+                "category": 4,
+                "summary": "Caused extensive damage in Central America due to heavy rainfall and flooding."
+            },
+            {
+                "name": "Hurricane Iota",
+                "category": 5,
+                "summary": "Made landfall in Nicaragua, exacerbating the devastation caused by Eta just weeks earlier."
+            }
+        ]
+    },
+    "2021": {
+        "total_storms": 21,
+        "hurricanes": 7,
+        "major_hurricanes": 4,
+        "notable_storms": [
+            {
+                "name": "Hurricane Ida",
+                "category": 4,
+                "summary": "Caused severe damage in Louisiana and catastrophic flooding in the Northeastern U.S."
+            },
+            {
+                "name": "Hurricane Elsa",
+                "category": 1,
+                "summary": "Affected the Caribbean and the southeastern United States."
+            }
+        ]
+    },
+    "2022": {
+        "total_storms": 14,
+        "hurricanes": 8,
+        "major_hurricanes": 2,
+        "notable_storms": [
+            {
+                "name": "Hurricane Fiona",
+                "category": 4,
+                "summary": "Caused widespread flooding in Puerto Rico and became a powerful storm in Atlantic Canada."
+            },
+            {
+                "name": "Hurricane Ian",
+                "category": 5,
+                "summary": "One of Florida's most destructive storms; storm surge and wind devastated the Gulf Coast."
+            }
+        ]
+    },
+    "2023": {
+        "total_storms": 20,
+        "hurricanes": 7,
+        "major_hurricanes": 3,
+        "notable_storms": [
+            {
+                "name": "Hurricane Idalia",
+                "category": 4,
+                "summary": "Struck Florida's Big Bend region with powerful storm surge and flooding."
+            },
+            {
+                "name": "Hurricane Lee",
+                "category": 5,
+                "summary": "Long-tracked major hurricane that impacted parts of the Northeast U.S. and Atlantic Canada."
+            },
+            {
+                "name": "Hurricane Franklin",
+                "category": 4,
+                "summary": "Stayed offshore but became one of the strongest hurricanes of the season."
+            }
+        ]
+    },
+    "2024": {
+        "total_storms": 17,
+        "hurricanes": 9,
+        "major_hurricanes": 4,
+        "notable_storms": [
+            {
+                "name": "Hurricane Beryl",
+                "category": 5,
+                "summary": "Historic Category 5 hurricane in June; devastated parts of the Windward Islands."
+            },
+            {
+                "name": "Hurricane Helene",
+                "category": 4,
+                "summary": "Powerful hurricane that struck Florida's Big Bend as a high-end Cat 4."
+            },
+            {
+                "name": "Hurricane Milton",
+                "category": 5,
+                "summary": "Reached Category 5 intensity before making landfall in Florida at Cat 3."
+            }
+        ]
+    }
+
+ 
+
+ 
 
 # ---------------- Cyclone Data ---------------- #
 cyclone_data = {
@@ -102,7 +572,7 @@ cyclone_data = {
 # ---------------- App Layout ---------------- #
 st.set_page_config(page_title="Cyclone Explorer", layout="wide")
 st.title("🌀 Cyclone Explorer")
-mode = st.selectbox("Choose a mode:", ["Explore One Cyclone", "Compare Two Cyclones"])
+mode = st.selectbox("Choose a mode:", ["Explore One Cyclone", "Compare Two Cyclones", "Explore Hurricane Seasons"])
 
 # ---------------- EXPLORE ONE ---------------- #
 if mode == "Explore One Cyclone":
@@ -293,3 +763,25 @@ if mode == "Compare Two Cyclones":
             ax.plot(radii, wind_b, color='purple')
             ax.set_title(f"{storm_b} Wind Field")
             st.pyplot(fig)
+            
+if mode == "Explore Hurricane Seasons":
+    st.header("🌊 Explore Hurricane Seasons")
+
+    # Dropdown to select a season
+    season_options = ["Select Season"] + [str(year) for year in range(2000, 2025)]
+    selected_season = st.selectbox("Select a Season", season_options, index=0)
+
+    if selected_season != "Select Season":
+        data = season_data[selected_season]
+
+        # Display season statistics
+        st.markdown(f"## {selected_season} Hurricane Season")
+        st.markdown(f"**Total Named Storms:** {data['total_storms']}")
+        st.markdown(f"**Hurricanes:** {data['hurricanes']}")
+        st.markdown(f"**Major Hurricanes:** {data['major_hurricanes']}")
+
+        # Display notable storms
+        st.markdown("### Notable Storms")
+        for storm in data['notable_storms']:
+            st.markdown(f"**{storm['name']}** (Category {storm['category']}): {storm['summary']}")
+
