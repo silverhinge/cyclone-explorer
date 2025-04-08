@@ -1,22 +1,59 @@
-import streamlit as st
-import numpy as np
-import matplotlib.pyplot as plt
+import folium
+from streamlit_folium import st_folium
 
-# Page settings
-st.set_page_config(page_title="Cyclone Explorer", layout="wide")
-st.title("🌀 Cyclone Explorer")
-st.markdown("Interactive dashboard for Atlantic tropical cyclones")
-
-# Dropdown menu
-storm = st.selectbox("Select a cyclone", ["Hurricane Helene (2024)", "Hurricane Milton (2024) - coming soon", "Tropical Storm Beryl (2024) - coming soon"])
-
-# ---------------------- HELENE (LIVE) ---------------------- #
+# ---------------------- HELENE (LIVE + INTERACTIVE) ---------------------- #
 if storm == "Hurricane Helene (2024)":
     st.subheader("📌 Hurricane Helene – September 2024")
 
+    st.markdown("""
+    **Overview:**  
+    Hurricane Helene made landfall in the Big Bend region of Florida in late September 2024 as a Category 4 hurricane, with sustained winds of 140 mph and a central pressure near 920 mb. The storm caused widespread wind damage, record-breaking rainfall, and coastal flooding across Florida and inland states.
+    """)
+
+    st.markdown("### 🌍 Interactive Track Map")
+
+    # Create interactive folium map centered near Florida
+    m = folium.Map(location=[29.5, -84.5], zoom_start=5, tiles='cartodbpositron')
+
+    # Simulated track points (lat, lon)
+    helene_track = [
+        [20.0, -70.0],
+        [22.5, -72.5],
+        [25.0, -75.0],
+        [27.0, -78.0],
+        [29.0, -83.5],  # landfall
+        [31.0, -85.0],
+        [33.0, -87.0],
+    ]
+
+    # Add track line
+    folium.PolyLine(helene_track, color="red", weight=4.5, tooltip="Track").add_to(m)
+
+    # Add landfall marker
+    folium.Marker(
+        location=helene_track[4],
+        popup="Landfall: Cat 4 - 140 mph",
+        icon=folium.Icon(color="darkred", icon="info-sign"),
+    ).add_to(m)
+
+    # Add peak intensity marker
+    folium.CircleMarker(
+        location=helene_track[3],
+        radius=8,
+        popup="Peak Intensity: 920 mb",
+        color="darkblue",
+        fill=True,
+        fill_color="blue"
+    ).add_to(m)
+
+    # Show map in Streamlit
+    st_data = st_folium(m, width=700)
+
+    # ---------------------- Visuals ---------------------- #
+    st.markdown("### 📊 Structural Diagrams")
+
     col1, col2 = st.columns(2)
 
-    # Pressure chart
     with col1:
         st.markdown("**Central Pressure Evolution (mb)**")
         hours = np.arange(0, 96, 6)
@@ -30,11 +67,10 @@ if storm == "Hurricane Helene (2024)":
         ax1.grid(True)
         st.pyplot(fig1)
 
-    # Wind field profile
     with col2:
         st.markdown("**Wind Field at Peak Intensity (mph)**")
         radii_km = np.linspace(0, 200, 200)
-        wind_speed = 140 * np.exp(-radii_km / 50)  # Category 4 peak
+        wind_speed = 140 * np.exp(-radii_km / 50)
         fig2, ax2 = plt.subplots()
         ax2.plot(radii_km, wind_speed, color='darkred')
         ax2.set_xlabel("Distance from Eye (km)")
@@ -42,9 +78,6 @@ if storm == "Hurricane Helene (2024)":
         ax2.set_title("Wind Field Cross-Section")
         ax2.grid(True)
         st.pyplot(fig2)
-
-    # Rainbands + spaghetti tracks
-    st.markdown("### 🌀 Additional Explorer Views")
 
     col3, col4 = st.columns(2)
 
@@ -74,10 +107,3 @@ if storm == "Hurricane Helene (2024)":
         ax4.set_title("Model Spread (Simulated)")
         ax4.grid(True)
         st.pyplot(fig4)
-
-    st.markdown("---")
-    st.info("Helene made landfall in the Big Bend of Florida in Sept 2024 as a Category 4 hurricane with devastating wind and flood impacts. This Explorer visualizes its peak intensity structure and forecast spread.")
-
-# ---------------------- PLACEHOLDERS ---------------------- #
-else:
-    st.warning("This storm’s visuals are coming soon! Stay tuned as we add more 2024–2025 systems.")
