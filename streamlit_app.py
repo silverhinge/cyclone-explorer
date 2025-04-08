@@ -1,12 +1,13 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
+import folium
+from streamlit_folium import st_folium
 
 # Page setup
 st.set_page_config(page_title="Cyclone Explorer", layout="wide")
 st.title("🌀 Cyclone Explorer")
-st.markdown("Visualize stylized hurricane structures — cartoon-style storm anatomy.")
+st.markdown("Welcome to Cyclone Explorer — a live dashboard for visualizing historical and current tropical cyclones.")
 
 # Dropdown
 storm = st.selectbox(
@@ -18,59 +19,136 @@ storm = st.selectbox(
     ]
 )
 
-# ---------------------- HELENE - CARTOON DIAGRAM ---------------------- #
+# ---------------------- HELENE (INTERACTIVE MAP VERSION) ---------------------- #
 if storm == "Hurricane Helene (2024)":
-    st.subheader("🎨 Cartoon Diagram: Hurricane Helene")
+    st.subheader("📌 Hurricane Helene – September 2024")
 
     st.markdown("""
-    This stylized diagram shows the structure of Hurricane Helene at peak intensity.  
-    Each ring and spiral represents a key part of the storm — the eye, eyewall, and outer rainbands.
+    **Overview:**  
+    Hurricane Helene made landfall in the Big Bend region of Florida in late September 2024 as a Category 4 hurricane, with sustained winds of 140 mph and a central pressure near 920 mb.  
+    The storm caused widespread wind damage, record-breaking rainfall, and coastal flooding across Florida and inland states.
     """)
 
-    # Generate spiral storm structure
-    fig, ax = plt.subplots(figsize=(8, 8))
-    ax.set_facecolor("black")
+    # Interactive map with structure
+    st.markdown("### 🌀 Interactive Storm Structure Map")
+
+    m = folium.Map(location=[29.0, -83.5], zoom_start=6, tiles='cartodbpositron')
 
     # Eye
-    eye = Circle((0, 0), 5, color="gold", label="Eye")
-    ax.add_patch(eye)
+    folium.CircleMarker(
+        location=[29.0, -83.5],
+        radius=8,
+        popup="👁️ Eye: Central pressure ~920 mb\nMax winds ~140 mph",
+        color="black",
+        fill=True,
+        fill_color="black",
+        tooltip="Storm Eye"
+    ).add_to(m)
 
-    # Eyewall
-    for r in np.linspace(7, 10, 5):
-        theta = np.linspace(0, 2 * np.pi, 500)
-        x = r * np.cos(theta)
-        y = r * np.sin(theta)
-        ax.plot(x, y, color="darkred", linewidth=2, alpha=0.7)
+    # Wind radii
+    folium.Circle(
+        location=[29.0, -83.5],
+        radius=60000,
+        color="orange",
+        fill=False,
+        popup="🌬️ 34 kt Wind Radius (~60 km)",
+        tooltip="34 kt zone"
+    ).add_to(m)
 
-    # Rainbands as spirals
-    for i in range(3):
-        theta = np.linspace(0, 4 * np.pi, 1000)
-        r = 12 + i * 5 + theta * 0.5
-        x = r * np.cos(theta + i * np.pi/3)
-        y = r * np.sin(theta + i * np.pi/3)
-        ax.plot(x, y, color="skyblue", linewidth=1.5, alpha=0.4)
+    folium.Circle(
+        location=[29.0, -83.5],
+        radius=40000,
+        color="red",
+        fill=False,
+        popup="🌬️ 50 kt Wind Radius (~40 km)",
+        tooltip="50 kt zone"
+    ).add_to(m)
 
-    # Outer wind field
-    outer_rings = [30, 50, 70]
-    ring_colors = ["#3355ff", "#2244cc", "#112288"]
-    labels = ["Outer Rainband", "Mid Rainband", "Peripheral Winds"]
-    for radius, color in zip(outer_rings, ring_colors):
-        ring = Circle((0, 0), radius, fill=False, color=color, linewidth=1, linestyle='--', alpha=0.3)
-        ax.add_patch(ring)
+    folium.Circle(
+        location=[29.0, -83.5],
+        radius=25000,
+        color="darkred",
+        fill=False,
+        popup="🌬️ 64 kt Wind Radius (~25 km)",
+        tooltip="64 kt zone"
+    ).add_to(m)
 
-    # Label zones
-    ax.text(0, 0, "👁️", fontsize=18, ha='center', va='center', color="black")
-    ax.text(0, -12, "Eyewall", color="white", fontsize=10, ha='center')
-    ax.text(0, -40, "Rainbands", color="skyblue", fontsize=10, ha='center')
-    ax.text(0, -65, "Wind Field", color="lightgray", fontsize=10, ha='center')
+    # Rainbands
+    rainband_radii = [90000, 120000, 150000]
+    colors = ["#88f", "#66c", "#44a"]
+    labels = ["Outer Rainband", "Mid Rainband", "Deep Convection"]
 
-    ax.set_xlim(-80, 80)
-    ax.set_ylim(-80, 80)
-    ax.axis('off')
-    st.pyplot(fig)
+    for radius, color, label in zip(rainband_radii, colors, labels):
+        folium.Circle(
+            location=[29.0, -83.5],
+            radius=radius,
+            color=color,
+            fill=False,
+            popup=f"🌧️ {label}",
+            tooltip=label
+        ).add_to(m)
 
-    st.info("🌀 Hurricane Helene was a Category 4 hurricane at peak. This graphic is a schematic — not satellite data — but modeled after observed structure.")
+    st_data = st_folium(m, width=700, height=500)
+
+    # Structural charts
+    st.markdown("### 📊 Structural Diagrams")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("**Central Pressure Evolution (mb)**")
+        hours = np.arange(0, 96, 6)
+        pressure = 1010 - (np.sin(hours / 96 * np.pi) * 90 + 5)
+        fig1, ax1 = plt.subplots()
+        ax1.plot(hours, pressure, color='blue', linewidth=2)
+        ax1.set_xlabel("Hours Since Formation")
+        ax1.set_ylabel("Pressure (mb)")
+        ax1.set_title("Central Pressure Drop")
+        ax1.invert_yaxis()
+        ax1.grid(True)
+        st.pyplot(fig1)
+
+    with col2:
+        st.markdown("**Wind Field at Peak Intensity (mph)**")
+        radii_km = np.linspace(0, 200, 200)
+        wind_speed = 140 * np.exp(-radii_km / 50)
+        fig2, ax2 = plt.subplots()
+        ax2.plot(radii_km, wind_speed, color='darkred')
+        ax2.set_xlabel("Distance from Eye (km)")
+        ax2.set_ylabel("Wind Speed (mph)")
+        ax2.set_title("Wind Field Cross-Section")
+        ax2.grid(True)
+        st.pyplot(fig2)
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.markdown("**Rainband Structure (top-down schematic)**")
+        theta = np.linspace(0, 2 * np.pi, 300)
+        radii = [40, 80, 120, 160]
+        fig3, ax3 = plt.subplots()
+        for r in radii:
+            ax3.plot(r * np.cos(theta), r * np.sin(theta), alpha=0.6)
+        ax3.set_title("Rainbands")
+        ax3.set_aspect("equal")
+        ax3.set_xticks([])
+        ax3.set_yticks([])
+        st.pyplot(fig3)
+
+    with col4:
+        st.markdown("**Spaghetti Ensemble Track (mock)**")
+        fig4, ax4 = plt.subplots()
+        for i in range(10):
+            offset = np.random.normal(0, 1.2, 10)
+            lat = np.linspace(20, 30, 10) + offset
+            lon = np.linspace(-80, -70, 10) + offset
+            ax4.plot(lon, lat, alpha=0.5)
+        ax4.set_xlabel("Longitude")
+        ax4.set_ylabel("Latitude")
+        ax4.set_title("Model Spread (Simulated)")
+        ax4.grid(True)
+        st.pyplot(fig4)
 
 # ---------------------- PLACEHOLDERS ---------------------- #
 else:
-    st.warning("This cyclone’s diagram is coming soon!")
+    st.warning("This cyclone’s visuals are coming soon!")
