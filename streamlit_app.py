@@ -75,12 +75,27 @@ if mode == "Explore One Cyclone":
         st.markdown(f"**Summary:** {data['summary']}")
         st.markdown(f"**Category:** {data['category']}  |  **Max Wind:** {data['max_wind']} mph  |  **Min Pressure:** {data['min_pressure']} mb  |  **Landfall Cat:** {data['landfall_cat']}")
 
-        st.markdown("### 🗺️ Track Map")
-        m = folium.Map(location=data['track'][0], zoom_start=5, tiles='cartodbpositron')
-        folium.PolyLine(data['track'], color="blue").add_to(m)
-        folium.Marker(data['track'][0], popup="Start").add_to(m)
-        folium.Marker(data['track'][-1], popup="End").add_to(m)
-        st_folium(m, width=700, height=400)
+        st.markdown("### 🌀 Cyclone Structure & Track")
+
+        col_map1, col_map2 = st.columns(2)
+        
+        with col_map1:
+            st.markdown("**Wind Field Rings**")
+            m1 = folium.Map(location=data['track'][-1], zoom_start=6, tiles='cartodbpositron')
+            folium.CircleMarker(location=data['track'][-1], radius=8, popup=f"Eye: {data['pressure']} mb, {data['max_wind']} mph", color="black", fill=True).add_to(m1)
+            folium.Circle(location=data['track'][-1], radius=60000, color="orange", fill=False, popup="34 kt Wind Radius").add_to(m1)
+            folium.Circle(location=data['track'][-1], radius=40000, color="red", fill=False, popup="50 kt Wind Radius").add_to(m1)
+            folium.Circle(location=data['track'][-1], radius=25000, color="darkred", fill=False, popup="64 kt Wind Radius").add_to(m1)
+            st_folium(m1, width=350, height=350)
+        
+        with col_map2:
+            st.markdown("**Track Map**")
+            m2 = folium.Map(location=data['track'][0], zoom_start=5, tiles='cartodbpositron')
+            folium.PolyLine(data['track'], color="blue").add_to(m2)
+            folium.Marker(data['track'][0], popup="Start").add_to(m2)
+            folium.Marker(data['track'][-1], popup="End").add_to(m2)
+            st_folium(m2, width=350, height=350)
+
 
         st.markdown("### 📉 Central Pressure Evolution")
         hours = np.arange(0, 96, 6)
