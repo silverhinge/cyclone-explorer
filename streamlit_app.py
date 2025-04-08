@@ -9,7 +9,7 @@ st.set_page_config(page_title="Cyclone Explorer", layout="wide")
 st.title("🌀 Cyclone Explorer")
 st.markdown("Welcome to Cyclone Explorer — a live dashboard for visualizing historical and current tropical cyclones.")
 
-# ---------------------- Dropdown Menu ---------------------- #
+# Dropdown Menu
 storm = st.selectbox(
     "Select a cyclone:",
     [
@@ -19,7 +19,7 @@ storm = st.selectbox(
     ]
 )
 
-# ---------------------- HELENE (INTERACTIVE MAP + STRUCTURE) ---------------------- #
+# ---------------------- HURRICANE HELENE ---------------------- #
 if storm == "Hurricane Helene (2024)":
     st.subheader("📌 Hurricane Helene – September 2024")
 
@@ -29,47 +29,69 @@ if storm == "Hurricane Helene (2024)":
     The storm caused widespread wind damage, record-breaking rainfall, and coastal flooding across Florida and inland states.
     """)
 
-    # 🌍 Interactive map
-    st.markdown("### 🌍 Interactive Track Map")
+    # INTERACTIVE STRUCTURAL MAP
+    st.markdown("### 🌀 Interactive Storm Structure Map")
 
-    # Create folium map centered near Florida
-    m = folium.Map(location=[29.5, -84.5], zoom_start=5, tiles='cartodbpositron')
+    m = folium.Map(location=[29.0, -83.5], zoom_start=6, tiles='cartodbpositron')
 
-    # Simulated track coordinates
-    helene_track = [
-        [20.0, -70.0],
-        [22.5, -72.5],
-        [25.0, -75.0],
-        [27.0, -78.0],
-        [29.0, -83.5],  # landfall
-        [31.0, -85.0],
-        [33.0, -87.0],
-    ]
-
-    # Add storm track
-    folium.PolyLine(helene_track, color="red", weight=4.5, tooltip="Track").add_to(m)
-
-    # Add landfall marker
-    folium.Marker(
-        location=helene_track[4],
-        popup="Landfall: Cat 4 - 140 mph",
-        icon=folium.Icon(color="darkred", icon="info-sign"),
-    ).add_to(m)
-
-    # Add peak intensity marker
+    # Eye
     folium.CircleMarker(
-        location=helene_track[3],
+        location=[29.0, -83.5],
         radius=8,
-        popup="Peak Intensity: 920 mb",
-        color="darkblue",
+        popup="👁️ Eye: Central pressure ~920 mb\nMax winds ~140 mph",
+        color="black",
         fill=True,
-        fill_color="blue"
+        fill_color="black",
+        tooltip="Storm Eye"
     ).add_to(m)
 
-    # Show map
+    # Wind radii zones
+    folium.Circle(
+        location=[29.0, -83.5],
+        radius=60000,  # ~60 km
+        color="orange",
+        fill=False,
+        popup="🌬️ 34 kt Wind Radius (~60 km)",
+        tooltip="34 kt zone"
+    ).add_to(m)
+
+    folium.Circle(
+        location=[29.0, -83.5],
+        radius=40000,
+        color="red",
+        fill=False,
+        popup="🌬️ 50 kt Wind Radius (~40 km)",
+        tooltip="50 kt zone"
+    ).add_to(m)
+
+    folium.Circle(
+        location=[29.0, -83.5],
+        radius=25000,
+        color="darkred",
+        fill=False,
+        popup="🌬️ 64 kt Wind Radius (~25 km)",
+        tooltip="64 kt zone"
+    ).add_to(m)
+
+    # Rainbands (as extended rings)
+    rainband_radii = [90000, 120000, 150000]
+    colors = ["#88f", "#66c", "#44a"]
+    labels = ["Outer Rainband", "Mid Rainband", "Deep Convection"]
+
+    for radius, color, label in zip(rainband_radii, colors, labels):
+        folium.Circle(
+            location=[29.0, -83.5],
+            radius=radius,
+            color=color,
+            fill=False,
+            popup=f"🌧️ {label}",
+            tooltip=label
+        ).add_to(m)
+
+    # Display map
     st_data = st_folium(m, width=700, height=500)
 
-    # 🌪️ Structure Visuals
+    # STRUCTURAL CHARTS
     st.markdown("### 📊 Structural Diagrams")
 
     col1, col2 = st.columns(2)
@@ -128,6 +150,6 @@ if storm == "Hurricane Helene (2024)":
         ax4.grid(True)
         st.pyplot(fig4)
 
-# ---------------------- PLACEHOLDERS ---------------------- #
+# ---------------------- PLACEHOLDER FOR FUTURE STORMS ---------------------- #
 else:
     st.warning("This storm’s visuals are coming soon! Stay tuned as we add more 2024–2025 systems.")
