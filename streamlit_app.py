@@ -82,7 +82,13 @@ if mode == "Explore One Cyclone":
         with col_map1:
             st.markdown("**Wind Field Rings**")
             m1 = folium.Map(location=data['track'][-1], zoom_start=6, tiles='cartodbpositron')
-            folium.CircleMarker(location=data['track'][-1], radius=8, popup=f"Eye: {data['pressure']} mb, {data['max_wind']} mph", color="black", fill=True).add_to(m1)
+            folium.CircleMarker(
+                location=data['track'][-1],
+                radius=8,
+                popup=f"Eye: {data['min_pressure']} mb, {data['max_wind']} mph",
+                color="black",
+                fill=True
+            ).add_to(m1)
             folium.Circle(location=data['track'][-1], radius=60000, color="orange", fill=False, popup="34 kt Wind Radius").add_to(m1)
             folium.Circle(location=data['track'][-1], radius=40000, color="red", fill=False, popup="50 kt Wind Radius").add_to(m1)
             folium.Circle(location=data['track'][-1], radius=25000, color="darkred", fill=False, popup="64 kt Wind Radius").add_to(m1)
