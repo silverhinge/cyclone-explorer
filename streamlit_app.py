@@ -204,6 +204,45 @@ if mode == "Compare Two Cyclones":
             folium.Marker(data_b['track'][-1], popup="End").add_to(m2)
             st.markdown(f"**{storm_b}**")
             st_folium(m2, width=350, height=250)
+        st.markdown("### 🌬️ Wind Field Rings")
+        col_wind1, col_wind2 = st.columns(2)
+        
+        with col_wind1:
+            st.markdown(f"**{storm_a}**")
+            if "track" in data_a:
+                m_wind1 = folium.Map(location=data_a['track'][-1], zoom_start=6, tiles='cartodbpositron')
+                folium.CircleMarker(
+                    location=data_a['track'][-1],
+                    radius=8,
+                    popup=f"Eye: {data_a['min_pressure']} mb, {data_a['max_wind']} mph",
+                    color="black",
+                    fill=True
+                ).add_to(m_wind1)
+                folium.Circle(location=data_a['track'][-1], radius=60000, color="orange", fill=False, popup="34 kt Wind Radius").add_to(m_wind1)
+                folium.Circle(location=data_a['track'][-1], radius=40000, color="red", fill=False, popup="50 kt Wind Radius").add_to(m_wind1)
+                folium.Circle(location=data_a['track'][-1], radius=25000, color="darkred", fill=False, popup="64 kt Wind Radius").add_to(m_wind1)
+                st_folium(m_wind1, width=350, height=350)
+            else:
+                st.info("Wind field visualization not available for this cyclone.")
+        
+        with col_wind2:
+            st.markdown(f"**{storm_b}**")
+            if "track" in data_b:
+                m_wind2 = folium.Map(location=data_b['track'][-1], zoom_start=6, tiles='cartodbpositron')
+                folium.CircleMarker(
+                    location=data_b['track'][-1],
+                    radius=8,
+                    popup=f"Eye: {data_b['min_pressure']} mb, {data_b['max_wind']} mph",
+                    color="black",
+                    fill=True
+                ).add_to(m_wind2)
+                folium.Circle(location=data_b['track'][-1], radius=60000, color="orange", fill=False, popup="34 kt Wind Radius").add_to(m_wind2)
+                folium.Circle(location=data_b['track'][-1], radius=40000, color="red", fill=False, popup="50 kt Wind Radius").add_to(m_wind2)
+                folium.Circle(location=data_b['track'][-1], radius=25000, color="darkred", fill=False, popup="64 kt Wind Radius").add_to(m_wind2)
+                st_folium(m_wind2, width=350, height=350)
+            else:
+                st.info("Wind field visualization not available for this cyclone.")
+        
 
         st.markdown("### 📊 Key Cyclone Stats")
         stats_table = f"""
