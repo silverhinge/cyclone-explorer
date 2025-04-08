@@ -1,21 +1,41 @@
+import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
 import folium
 from streamlit_folium import st_folium
 
-# ---------------------- HELENE (LIVE + INTERACTIVE) ---------------------- #
+# Page config
+st.set_page_config(page_title="Cyclone Explorer", layout="wide")
+st.title("🌀 Cyclone Explorer")
+st.markdown("Welcome to Cyclone Explorer — a live dashboard for visualizing historical and current tropical cyclones.")
+
+# ---------------------- Dropdown Menu ---------------------- #
+storm = st.selectbox(
+    "Select a cyclone:",
+    [
+        "Hurricane Helene (2024)",
+        "Hurricane Milton (2024) - coming soon",
+        "Tropical Storm Beryl (2024) - coming soon"
+    ]
+)
+
+# ---------------------- HELENE (INTERACTIVE MAP + STRUCTURE) ---------------------- #
 if storm == "Hurricane Helene (2024)":
     st.subheader("📌 Hurricane Helene – September 2024")
 
     st.markdown("""
     **Overview:**  
-    Hurricane Helene made landfall in the Big Bend region of Florida in late September 2024 as a Category 4 hurricane, with sustained winds of 140 mph and a central pressure near 920 mb. The storm caused widespread wind damage, record-breaking rainfall, and coastal flooding across Florida and inland states.
+    Hurricane Helene made landfall in the Big Bend region of Florida in late September 2024 as a Category 4 hurricane, with sustained winds of 140 mph and a central pressure near 920 mb.  
+    The storm caused widespread wind damage, record-breaking rainfall, and coastal flooding across Florida and inland states.
     """)
 
+    # 🌍 Interactive map
     st.markdown("### 🌍 Interactive Track Map")
 
-    # Create interactive folium map centered near Florida
+    # Create folium map centered near Florida
     m = folium.Map(location=[29.5, -84.5], zoom_start=5, tiles='cartodbpositron')
 
-    # Simulated track points (lat, lon)
+    # Simulated track coordinates
     helene_track = [
         [20.0, -70.0],
         [22.5, -72.5],
@@ -26,7 +46,7 @@ if storm == "Hurricane Helene (2024)":
         [33.0, -87.0],
     ]
 
-    # Add track line
+    # Add storm track
     folium.PolyLine(helene_track, color="red", weight=4.5, tooltip="Track").add_to(m)
 
     # Add landfall marker
@@ -46,10 +66,10 @@ if storm == "Hurricane Helene (2024)":
         fill_color="blue"
     ).add_to(m)
 
-    # Show map in Streamlit
-    st_data = st_folium(m, width=700)
+    # Show map
+    st_data = st_folium(m, width=700, height=500)
 
-    # ---------------------- Visuals ---------------------- #
+    # 🌪️ Structure Visuals
     st.markdown("### 📊 Structural Diagrams")
 
     col1, col2 = st.columns(2)
@@ -107,3 +127,7 @@ if storm == "Hurricane Helene (2024)":
         ax4.set_title("Model Spread (Simulated)")
         ax4.grid(True)
         st.pyplot(fig4)
+
+# ---------------------- PLACEHOLDERS ---------------------- #
+else:
+    st.warning("This storm’s visuals are coming soon! Stay tuned as we add more 2024–2025 systems.")
