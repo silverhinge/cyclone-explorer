@@ -648,6 +648,18 @@ if mode == "Explore One Cyclone":
         ax2.set_ylabel("Wind Speed (mph)")
         ax2.set_title("Wind Speed by Radius")
         st.pyplot(fig2)
+        st.markdown("### 🛰️ Satellite Loops")
+        
+        sat_type = st.selectbox("Select Satellite Type", ["Infrared", "Visible", "Water Vapor"])
+        
+        sat_links = {
+            "Infrared": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/13/GOES16-GM-13-900x540.gif",
+            "Visible": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/02/GOES16-GM-02-900x540.gif",
+            "Water Vapor": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/09/GOES16-GM-09-900x540.gif"
+        }
+        
+        st.image(sat_links[sat_type], caption=f"{sat_type} Satellite Loop (GOES-16 Gulf View)", use_column_width=True)
+        
 
 # ---------------- COMPARE TWO ---------------- #
 if mode == "Compare Two Cyclones":
