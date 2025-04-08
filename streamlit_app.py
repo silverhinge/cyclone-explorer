@@ -102,17 +102,22 @@ season_data = {
             {
                 "name": "Hurricane Katrina",
                 "category": 5,
-                "summary": "Devastated New Orleans and surrounding areas."
+                "summary": "Devastated New Orleans and surrounding areas with catastrophic flooding."
             },
             {
                 "name": "Hurricane Rita",
                 "category": 5,
-                "summary": "Struck Texas-Louisiana border causing severe damage."
+                "summary": "Struck the Texas-Louisiana border causing severe damage."
             },
             {
                 "name": "Hurricane Wilma",
                 "category": 5,
-                "summary": "Strongest Atlantic hurricane by pressure; impacted Yucatán and Florida."
+                "summary": "Strongest Atlantic hurricane by pressure; impacted Yucatán and South Florida."
+            },
+            {
+                "name": "Hurricane Stan",
+                "category": 1,
+                "summary": "Caused deadly flooding and mudslides in Central America, especially Guatemala."
             }
         ]
     },
