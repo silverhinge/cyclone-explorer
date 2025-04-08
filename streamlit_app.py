@@ -18,7 +18,7 @@ cyclone_data = {
         "max_wind": 185,
         "min_pressure": 882,
         "landfall_cat": 3,
-        "summary": "Strongest hurricane on record in the Atlantic basin by pressure."
+        "summary": "Strongest Atlantic hurricane on record by minimum pressure."
     },
     "Hurricane Irma (2017)": {
         "category": 5,
@@ -27,28 +27,106 @@ cyclone_data = {
         "landfall_cat": 4,
         "summary": "Destroyed parts of the northern Caribbean and Florida Keys."
     },
+    "Hurricane Maria (2017)": {
+        "category": 5,
+        "max_wind": 175,
+        "min_pressure": 908,
+        "landfall_cat": 4,
+        "summary": "Devastated Puerto Rico with prolonged power outages and flooding."
+    },
+    "Hurricane Harvey (2017)": {
+        "category": 4,
+        "max_wind": 130,
+        "min_pressure": 937,
+        "landfall_cat": 4,
+        "summary": "Catastrophic flooding in Texas. One of the costliest U.S. hurricanes."
+    },
+    "Hurricane Dorian (2019)": {
+        "category": 5,
+        "max_wind": 185,
+        "min_pressure": 910,
+        "landfall_cat": 1,
+        "summary": "Destroyed Grand Bahama with Category 5 winds and prolonged stall."
+    },
+    "Hurricane Laura (2020)": {
+        "category": 4,
+        "max_wind": 150,
+        "min_pressure": 937,
+        "landfall_cat": 4,
+        "summary": "Major landfall in Louisiana with extreme wind damage."
+    },
+    "Hurricane Ian (2022)": {
+        "category": 5,
+        "max_wind": 160,
+        "min_pressure": 936,
+        "landfall_cat": 4,
+        "summary": "Devastated SW Florida with storm surge and flooding."
+    },
+    "Hurricane Fiona (2022)": {
+        "category": 4,
+        "max_wind": 130,
+        "min_pressure": 931,
+        "landfall_cat": 3,
+        "summary": "Significant flooding in Puerto Rico and Atlantic Canada."
+    },
     "Hurricane Helene (2024)": {
         "category": 4,
         "max_wind": 140,
         "min_pressure": 920,
         "landfall_cat": 4,
-        "summary": "Struck Big Bend Florida region as a destructive Category 4 hurricane."
+        "summary": "Struck Big Bend Florida as a destructive Category 4 hurricane."
     },
     "Hurricane Milton (2024)": {
         "category": 5,
         "max_wind": 180,
         "min_pressure": 897,
         "landfall_cat": 3,
-        "summary": "Made landfall near Siesta Key, Florida. Peaked with Cat 5 strength."
+        "summary": "Made landfall near Siesta Key, Florida. Peaked at Cat 5."
     },
-    "Tropical Storm Beryl (2024)": {
-        "category": 1,
-        "max_wind": 65,
-        "min_pressure": 994,
+    "Hurricane Beryl (2024)": {
+        "category": 5,
+        "max_wind": 165,
+        "min_pressure": 926,
+        "landfall_cat": 4,
+        "summary": "First Category 5 hurricane in June. Devastated parts of the Windward Islands."
+    },
+    "Hurricane Isabel (2003)": {
+        "category": 5,
+        "max_wind": 165,
+        "min_pressure": 915,
+        "landfall_cat": 2,
+        "summary": "Large, powerful storm that made landfall in North Carolina."
+    },
+    "Hurricane Ivan (2004)": {
+        "category": 5,
+        "max_wind": 165,
+        "min_pressure": 910,
+        "landfall_cat": 3,
+        "summary": "Major hurricane that impacted Grenada and the U.S. Gulf Coast."
+    },
+    "Hurricane Dean (2007)": {
+        "category": 5,
+        "max_wind": 175,
+        "min_pressure": 905,
+        "landfall_cat": 5,
+        "summary": "Made landfall in Mexico's Yucatan Peninsula at peak intensity."
+    },
+    "Hurricane Michael (2018)": {
+        "category": 5,
+        "max_wind": 160,
+        "min_pressure": 919,
+        "landfall_cat": 5,
+        "summary": "Devastated the Florida Panhandle with catastrophic winds and surge."
+    },
+    "Hurricane Sandy (2012)": {
+        "category": 3,
+        "max_wind": 115,
+        "min_pressure": 940,
         "landfall_cat": 1,
-        "summary": "Weak but persistent storm early in the 2024 season."
+        "summary": "Massive hybrid storm that impacted the northeastern U.S. coast."
     }
 }
+
 
 # ---------------- PAGE SETUP ---------------- #
 st.set_page_config(page_title="Cyclone Explorer", layout="wide")
