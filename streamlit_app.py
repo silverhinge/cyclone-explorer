@@ -86,7 +86,6 @@ cyclone_data = {
     }
 }
 
-}
 
 # ---------------- App Layout ---------------- #
 st.set_page_config(page_title="Cyclone Explorer", layout="wide")
