@@ -611,7 +611,7 @@ if mode == "Explore One Cyclone":
         
         with col_img:
             if "storm_image_url" in data:
-                st.image(data["storm_image_url"], caption="Satellite View", use_column_width=True)
+                st.image(data["storm_image_url"], caption="Satellite View", use_container_width=True)
             else:
                 st.markdown("🖼️ *Image Not Available*")
         
@@ -691,7 +691,7 @@ if mode == "Explore One Cyclone":
         channel = channel_map[sat_type]
         url = f"https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/{sector}/{channel}/GOES16-{sector.upper()}-{channel}-900x540.gif"
     
-        st.image(url, caption=f"{sat_type} Satellite Loop", use_column_width=True)
+        st.image(url, caption=f"{sat_type} Satellite Loop", use_container_width=True)
 
 
 # ---------------- COMPARE TWO ---------------- #
@@ -830,7 +830,7 @@ if mode == "Compare Two Cyclones":
             channel = channel_map[sat_type]
             url = f"https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/{sector}/{channel}/GOES16-{sector.upper()}-{channel}-900x540.gif"
         
-            st.image(url, caption=f"{sat_type} Satellite Loop", use_column_width=True)
+            st.image(url, caption=f"{sat_type} Satellite Loop", use_container_width=True)
         else:
             st.info("Satellite visualization not available for this cyclone.")
 
