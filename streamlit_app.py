@@ -484,19 +484,19 @@ cyclone_data = {
     "Hurricane Katrina (2005)": {
         "category": 5, "max_wind": 175, "min_pressure": 902, "landfall_cat": 3,
         "summary": "Catastrophic storm that flooded New Orleans and devastated the Gulf Coast.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Katrina#/media/File:Katrina_2005-08-28_1700Z.jpg"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Katrina#/media/File:Katrina_2005-08-28_1700Z.jpg",
         "track": [(23.1, -75.1), (24.5, -76.8), (26.1, -78.3), (27.8, -80.0), (29.5, -89.6)]
     },
     "Hurricane Wilma (2005)": {
         "category": 5, "max_wind": 185, "min_pressure": 882, "landfall_cat": 3,
         "summary": "Strongest Atlantic hurricane on record by pressure. Impacted Yucatán and Florida.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Wilma#/media/File:Wilma_2005-10-19_1345Z.png"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Wilma#/media/File:Wilma_2005-10-19_1345Z.png",
         "track": [(17.0, -79.0), (18.5, -82.0), (19.8, -84.0), (20.9, -86.5), (25.0, -80.0)]
     },
     "Hurricane Rita (2005)": {
         "category": 5, "max_wind": 180, "min_pressure": 895, "landfall_cat": 3,
         "summary": "Powerful Gulf storm following Katrina, landfall near Texas-Louisiana border.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Rita#/media/File:Rita_2005-09-21_1915Z.jpg"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Rita#/media/File:Rita_2005-09-21_1915Z.jpg",
         "track": [(21.5, -75.0), (23.0, -77.0), (24.7, -79.0), (26.5, -91.0), (29.7, -93.6)]
     },
     "Hurricane Isabel (2003)": {
@@ -542,7 +542,7 @@ cyclone_data = {
     "Hurricane Laura (2020)": {
         "category": 4, "max_wind": 150, "min_pressure": 937, "landfall_cat": 4,
         "summary": "Major landfall in Louisiana with extreme wind damage.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Laura#/media/File:Laura_2020-08-26_2300Z.png"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Laura#/media/File:Laura_2020-08-26_2300Z.png",
         "track": [(18.0, -70.0), (21.0, -75.0), (24.0, -80.0), (26.5, -87.0), (29.8, -93.3)]
     },
     "Hurricane Ian (2022)": {
@@ -563,19 +563,19 @@ cyclone_data = {
     "Hurricane Helene (2024)": {
         "category": 4, "max_wind": 140, "min_pressure": 920, "landfall_cat": 4,
         "summary": "Struck Florida’s Big Bend region as a powerful Cat 4.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Helene#/media/File:Helene_2024-09-27_0146Z.jpg"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Helene#/media/File:Helene_2024-09-27_0146Z.jpg",
         "track": [(18.0, -58.0), (20.0, -60.0), (23.0, -63.0), (25.5, -67.0), (29.0, -83.5)]
     },
     "Hurricane Milton (2024)": {
         "category": 5, "max_wind": 180, "min_pressure": 897, "landfall_cat": 3,
         "summary": "Peaked at Category 5 before making landfall near Siesta Key, Florida.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Milton#/media/File:Milton_2024-10-07_1920Z.jpg"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Milton#/media/File:Milton_2024-10-07_1920Z.jpg",
         "track": [(18.5, -70.0), (21.0, -72.5), (23.5, -75.0), (25.8, -78.0), (27.3, -82.5)]
     },
     "Hurricane Beryl (2024)": {
         "category": 5, "max_wind": 165, "min_pressure": 926, "landfall_cat": 4,
         "summary": "Historic Category 5 hurricane in June, devastated parts of the Windward Islands.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Beryl#/media/File:Beryl_2024-07-02_1230Z.jpg"
+        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Beryl#/media/File:Beryl_2024-07-02_1230Z.jpg",
         "track": [(11.5, -52.0), (12.8, -55.0), (14.2, -58.0), (15.5, -61.0), (16.8, -64.0)]
     }
 }
