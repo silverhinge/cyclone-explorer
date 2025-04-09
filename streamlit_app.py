@@ -563,13 +563,13 @@ cyclone_data = {
     "Hurricane Helene (2024)": {
         "category": 4, "max_wind": 140, "min_pressure": 920, "landfall_cat": 4,
         "summary": "Struck Florida’s Big Bend region as a powerful Cat 4.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Helene#/media/File:Helene_2024-09-27_0146Z.jpg",
+        "storm_image_url": "http://commons.wikimedia.org/wiki/File:Helene_2024-09-27_0146Z.jpg",
         "track": [(18.0, -58.0), (20.0, -60.0), (23.0, -63.0), (25.5, -67.0), (29.0, -83.5)]
     },
     "Hurricane Milton (2024)": {
         "category": 5, "max_wind": 180, "min_pressure": 897, "landfall_cat": 3,
         "summary": "Peaked at Category 5 before making landfall near Siesta Key, Florida.",
-        "storm_image_url": "https://en.wikipedia.org/wiki/Hurricane_Milton#/media/File:Milton_2024-10-07_1920Z.jpg",
+        "storm_image_url": "http://commons.wikimedia.org/wiki/File:Milton_2024-10-07_1920Z.jpg",
         "track": [(18.5, -70.0), (21.0, -72.5), (23.5, -75.0), (25.8, -78.0), (27.3, -82.5)]
     },
     "Hurricane Beryl (2024)": {
