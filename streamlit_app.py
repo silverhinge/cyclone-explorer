@@ -659,18 +659,24 @@ if mode == "Explore One Cyclone":
         ax2.set_ylabel("Wind Speed (mph)")
         ax2.set_title("Wind Speed by Radius")
         st.pyplot(fig2)
+        if "track" in data:
+            lat, lon = data["track"][-1]
+            sector = get_goes_sector(lat, lon)
+    
         st.markdown("### 🛰️ Satellite Loops")
-        
-        sat_type = st.selectbox("Select Satellite Type", ["Infrared", "Visible", "Water Vapor"])
-        
-        sat_links = {
-            "Infrared": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/13/GOES16-GM-13-900x540.gif",
-            "Visible": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/02/GOES16-GM-02-900x540.gif",
-            "Water Vapor": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/09/GOES16-GM-09-900x540.gif"
+        sat_type = st.selectbox("Satellite Type", ["Infrared", "Visible", "Water Vapor"])
+    
+        channel_map = {
+            "Infrared": "13",
+            "Visible": "02",
+            "Water Vapor": "09"
         }
-        
-        st.image(sat_links[sat_type], caption=f"{sat_type} Satellite Loop (GOES-16 Gulf View)", use_column_width=True)
-        
+    
+        channel = channel_map[sat_type]
+        url = f"https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/{sector}/{channel}/GOES16-{sector.upper()}-{channel}-900x540.gif"
+    
+        st.image(url, caption=f"{sat_type} Satellite Loop", use_column_width=True)
+
 
 # ---------------- COMPARE TWO ---------------- #
 if mode == "Compare Two Cyclones":
