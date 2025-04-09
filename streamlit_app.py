@@ -572,6 +572,17 @@ cyclone_data = {
         "track": [(11.5, -52.0), (12.8, -55.0), (14.2, -58.0), (15.5, -61.0), (16.8, -64.0)]
     }
 }
+def get_goes_sector(lat, lon):
+    if -100 <= lon <= -40 and 0 <= lat <= 50:
+        return "taw"  # Tropical Atlantic West
+    elif -90 <= lon <= -60 and 10 <= lat <= 35:
+        return "gm"   # Gulf of America
+    elif -75 <= lon <= -55 and 10 <= lat <= 25:
+        return "car"  # Caribbean
+    elif -140 <= lon <= -100:
+        return "ep"   # East Pacific
+    else:
+        return "gm"   # Default to Gulf
 
 
 # ---------------- App Layout ---------------- #
@@ -780,6 +791,27 @@ if mode == "Compare Two Cyclones":
             ax.plot(radii, wind_b, color='purple')
             ax.set_title(f"{storm_b} Wind Field")
             st.pyplot(fig)
+        # --- Satellite Viewer ---
+        if "track" in data:
+            lat, lon = data["track"][-1]
+            sector = get_goes_sector(lat, lon)
+        
+            st.markdown("### 🛰️ Satellite Loops")
+            sat_type = st.selectbox("Satellite Type", ["Infrared", "Visible", "Water Vapor"])
+        
+            channel_map = {
+                "Infrared": "13",
+                "Visible": "02",
+                "Water Vapor": "09"
+            }
+        
+            channel = channel_map[sat_type]
+            url = f"https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/{sector}/{channel}/GOES16-{sector.upper()}-{channel}-900x540.gif"
+        
+            st.image(url, caption=f"{sat_type} Satellite Loop", use_column_width=True)
+        else:
+            st.info("Satellite visualization not available for this cyclone.")
+
             
 if mode == "Explore Hurricane Seasons":
     st.header("🌊 Explore Hurricane Seasons")
